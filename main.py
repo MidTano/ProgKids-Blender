@@ -1,7 +1,30 @@
 import bpy
 from bpy import context
-
 import builtins as __builtin__
+
+data = [[[3, 3, 3, 3, 3, 3, 3], [3, 3, 3, 49, 3, 3, 3], [49, 89, 89, 49, 89, 89, 49], [0, 0, 0, 0, 0, 0, 0],
+         [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0]],
+        [[3, 3, 3, 3, 3, 3, 3], [3, 3, 3, 3, 3, 3, 3], [89, 89, 41, 49, 41, 89, 89], [0, 0, 0, 0, 0, 0, 0],
+         [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0]],
+        [[3, 3, 3, 3, 3, 3, 3], [3, 3, 3, 3, 3, 3, 3], [89, 41, 41, 49, 41, 41, 89], [0, 0, 0, 0, 0, 0, 0],
+         [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0]],
+        [[3, 3, 3, 152, 3, 3, 3], [49, 3, 3, 152, 3, 3, 3], [49, 49, 49, 57, 49, 49, 49], [0, 0, 0, 0, 0, 0, 0],
+         [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0]],
+        [[3, 3, 3, 3, 3, 3, 3], [3, 3, 3, 3, 3, 3, 3], [89, 41, 41, 49, 41, 41, 89], [0, 0, 0, 0, 0, 0, 0],
+         [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0]],
+        [[3, 3, 3, 3, 3, 3, 3], [3, 3, 3, 3, 3, 3, 89], [89, 89, 41, 49, 41, 89, 89], [0, 0, 0, 0, 0, 0, 0],
+         [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0]],
+        [[3, 3, 3, 3, 3, 3, 3], [3, 3, 3, 49, 3, 89, 3], [49, 89, 89, 49, 89, 89, 49], [0, 0, 0, 0, 0, 0, 0],
+         [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0]]]
+         
+
+
+
+Rgb_Palet = [(138, 138, 138),(255,0,0),(230,230,70),(36,34,47),(240,214,165),(141,224,212)]
+Block_Palet = [3,152,41,49,89,57]
+Block_Name = ["Stone","RedStone","Gold","Obsidian","GlowStone","Diamond"]
+
+
 
 
 def console_print(*args, **kwargs):
@@ -20,7 +43,6 @@ def print(*args, **kwargs):
     console_print(*args, **kwargs)
     __builtin__.print(*args, **kwargs)
 
-
 def select_obj(obj):
     objectToSelect = bpy.data.objects[obj]
     objectToSelect.select_set(True)
@@ -32,83 +54,59 @@ def color_converter(r, g, b, alpha=1):
 
 
 def set_material(obj, index):
-    matg = bpy.data.materials.new(Block_name[index])
+    matg = bpy.data.materials.new(Block_Name[index])
     matg.use_nodes = True
 
     tree = matg.node_tree
     nodes = tree.nodes
     bsdf = nodes["Principled BSDF"]
 
-    bsdf.inputs[0].default_value = color_converter(rgb_palet[index][0], rgb_palet[index][1], rgb_palet[index][2])
+    bsdf.inputs[0].default_value = color_converter(Rgb_Palet[index][0], Rgb_Palet[index][1], Rgb_Palet[index][2])
 
     obj.active_material = matg
 
 
-rgb_palet = [(255, 0, 0)]
-Block_palet = [3]
-Block_name = ["Stone"]
 
-data = [[[3, 3, 3, 3, 3, 3, 3], [3, 3, 3, 49, 3, 3, 3], [49, 89, 89, 49, 89, 89, 49], [0, 0, 0, 0, 0, 0, 0],
-         [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0]],
-        [[3, 3, 3, 3, 3, 3, 3], [3, 3, 3, 3, 3, 3, 3], [89, 89, 41, 49, 41, 89, 89], [0, 0, 0, 0, 0, 0, 0],
-         [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0]],
-        [[3, 3, 3, 3, 3, 3, 3], [3, 3, 3, 3, 3, 3, 3], [89, 41, 41, 49, 41, 41, 89], [0, 0, 0, 0, 0, 0, 0],
-         [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0]],
-        [[3, 3, 3, 152, 3, 3, 3], [49, 3, 3, 152, 3, 3, 3], [49, 49, 49, 57, 49, 49, 49], [0, 0, 0, 0, 0, 0, 0],
-         [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0]],
-        [[3, 3, 3, 3, 3, 3, 3], [3, 3, 3, 3, 3, 3, 3], [89, 41, 41, 49, 41, 41, 89], [0, 0, 0, 0, 0, 0, 0],
-         [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0]],
-        [[3, 3, 3, 3, 3, 3, 3], [3, 3, 3, 3, 3, 3, 89], [89, 89, 41, 49, 41, 89, 89], [0, 0, 0, 0, 0, 0, 0],
-         [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0]],
-        [[3, 3, 3, 3, 3, 3, 3], [3, 3, 3, 49, 3, 89, 3], [49, 89, 89, 49, 89, 89, 49], [0, 0, 0, 0, 0, 0, 0],
-         [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0]]]
 
-todo_list_x = []
-todo_list_y = []
-todo_list_z = []
-color = []
-idCube = []
-idNow = 0
-try:
-    for z in range(len(data[0])):
-        for y in range(len(data[z])):
-            for x in range(len(data[z][y])):
-                if data[z][y][x] != 0:
-                    todo_list_x.append(x)
-                    todo_list_z.append(z)
-                    todo_list_y.append(y)
-                    color.append(data[z][y][x])
-                    idCube.append(idNow)
-                    idNow += 1
 
-except:pass
+Cordinate_List=[]
+Id_Block = []
+Id_Cube = []
+Count=0
 
-todo_list = []
+for z in range(len(data[0])):
+    for y in range(len(data[z])):
+        for x in range(len(data[z][y])):
+            if data[z][y][x] != 0:
+                Cordinate_List.append((x,z,y))
+                Id_Block.append(data[z][y][x])
+                Id_Cube.append(Count)
+                Count+=1
 
-for i in range(len(todo_list_x)):
-    bpy.ops.mesh.primitive_cube_add(location=(todo_list_x[i], todo_list_z[i], todo_list_y[i]), size=1)
+for i in range(len(Cordinate_List)):
+    bpy.ops.mesh.primitive_cube_add(location=(Cordinate_List[i][0], Cordinate_List[i][1], Cordinate_List[i][2]), size=1)
     bpy.context.active_object.select_set(False)
 
-for colorId in set(color):
-    for _, i in enumerate(idCube):
-        if colorId == color[_]:
-            if idCube[_] == 0:
+for Id_Color in set(Id_Block):
+    for _, i in enumerate(Id_Cube):
+        if Id_Color == Id_Block[_]:
+            if Id_Cube[_] == 0:
                 select_obj(f"Cube")
-            elif idCube[_] < 10:
+            elif Id_Cube[_] < 10:
                 select_obj(f"Cube.00{_}")
-            elif 10 <= idCube[_] < 100:
+            elif 10 <= Id_Cube[_] < 100:
                 select_obj(f"Cube.0{_}")
-            elif idCube[_] >= 100:
+            elif Id_Cube[_] >= 100:
                 select_obj(f"Cube.{_}")
 
-    Geg = False
-    for index in range(len(Block_palet)):
-        if Block_palet[index] == colorId:
+    TempVarible = False
+    for index in range(len(Block_Palet)):
+        if Block_Palet[index] == Id_Color:
             bpy.ops.object.join()
             set_material(bpy.context.active_object, index)
             bpy.context.active_object.select_set(False)
-            Geg = True
+            TempVarible = True
 
-    if not Geg:
+    if not TempVarible:
         bpy.ops.object.join()
         bpy.context.active_object.select_set(False)
